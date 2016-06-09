@@ -18,10 +18,11 @@
  */
 
 declare module Thrift {
+
   /**
    * Thrift JavaScript library version.
    */
-  var Version: string;
+  export var Version: string;
 
   /**
    * Thrift IDL type string to Id mapping.
@@ -29,7 +30,7 @@ declare module Thrift {
    * @property {number}  VOID   - No value (only legal for return types).
    * @property {number}  BOOL   - True/False integer.
    * @property {number}  BYTE   - Signed 8 bit integer.
-   * @property {number}  I08    - Signed 8 bit integer.     
+   * @property {number}  I08    - Signed 8 bit integer.
    * @property {number}  DOUBLE - 64 bit IEEE 854 floating point.
    * @property {number}  I16    - Signed 16 bit integer.
    * @property {number}  I32    - Signed 32 bit integer.
@@ -62,7 +63,7 @@ declare module Thrift {
     'UTF8': number;
     'UTF16': number;
   }
-  var Type: Type;
+  export var Type: Type;
 
   /**
    * Thrift RPC message type string to Id mapping.
@@ -77,14 +78,14 @@ declare module Thrift {
     'EXCEPTION': number;
     'ONEWAY': number;
   }
-  var MessageType: MessageType;
+  export var MessageType: MessageType;
 
   /**
    * Utility function returning the count of an object's own properties.
    * @param {object} obj - Object to test.
    * @returns {number} number of object's own properties
    */
-  function objectLength(obj: Object): number;
+  export function objectLength(obj: Object): number;
 
   /**
    * Utility function to establish prototype inheritance.
@@ -92,12 +93,12 @@ declare module Thrift {
    * @param {function} superConstructor - Contstructor function to set as base.
    * @param {string} [name] - Type name to set as name property in derived prototype.
    */
-  function inherits(constructor: Function, superConstructor: Function, name?: string): void;
+  export function inherits(constructor: Function, superConstructor: Function, name?: string): void;
 
   /**
    * TException is the base class for all Thrift exceptions types.
    */
-  class TException implements Error {
+  export class TException implements Error {
     name: string;
     message: string;
 
@@ -141,12 +142,12 @@ declare module Thrift {
     'INVALID_PROTOCOL': number;
     'UNSUPPORTED_CLIENT_TYPE': number;
   }
-  var TApplicationExceptionType: TApplicationExceptionType;
+  export var TApplicationExceptionType: TApplicationExceptionType;
 
   /**
    * TApplicationException is the exception class used to propagate exceptions from an RPC server back to a calling client.
    */
-  class TApplicationException extends TException {
+  export class TApplicationException extends TException {
     message: string;
     code: number;
 
@@ -179,10 +180,10 @@ declare module Thrift {
   /**
    * The Apache Thrift Transport layer performs byte level I/O between RPC
    * clients and servers. The JavaScript Transport object type uses Http[s]/XHR and is
-   * the sole browser based Thrift transport. Target servers must implement the http[s] 
+   * the sole browser based Thrift transport. Target servers must implement the http[s]
    * transport (see: node.js example server).
    */
-  class TXHRTransport {
+  export class TXHRTransport {
     url: string;
     wpos: number;
     rpos: number;
@@ -208,7 +209,7 @@ declare module Thrift {
     /**
      * Sends the current XRH request if the transport was created with a URL and
      * the async parameter if false. If the transport was not created with a URL
-     * or the async parameter is True or the URL is an empty string, the current 
+     * or the async parameter is True or the URL is an empty string, the current
      * send buffer is returned.
      * @param {object} async - If true the current send buffer is returned.
      * @param {function} callback - Optional async completion callback.
@@ -281,14 +282,14 @@ declare module Thrift {
   /**
    * Old alias of the TXHRTransport for backwards compatibility.
    */
-  class Transport extends TXHRTransport { }
+  export class Transport extends TXHRTransport { }
 
   /**
-   * The Apache Thrift Transport layer performs byte level I/O 
-   * between RPC clients and servers. The JavaScript TWebSocketTransport object 
+   * The Apache Thrift Transport layer performs byte level I/O
+   * between RPC clients and servers. The JavaScript TWebSocketTransport object
    * uses the WebSocket protocol. Target servers must implement WebSocket.
    */
-  class TWebSocketTransport {
+  export class TWebSocketTransport {
     url: string;           //Where to connect
     socket: any;           //The web socket
     callbacks: Function[]; //Pending callbacks
@@ -307,12 +308,12 @@ declare module Thrift {
     __reset(url): void;
 
     /**
-     * Sends the current WS request and registers callback. The async 
-     * parameter is ignored (WS flush is always async) and the callback 
+     * Sends the current WS request and registers callback. The async
+     * parameter is ignored (WS flush is always async) and the callback
      * function parameter is required.
      * @param {object} async - Ignored.
      * @param {function} callback - The client completion callback.
-     * @returns {undefined|string} Nothing (undefined) 
+     * @returns {undefined|string} Nothing (undefined)
      */
     flush(async: any, callback: Function): string;
 
@@ -332,7 +333,7 @@ declare module Thrift {
 
     /**
      * Returns true if the transport is open
-     * @returns {boolean} 
+     * @returns {boolean}
      */
     isOpen(): boolean;
 
@@ -374,11 +375,11 @@ declare module Thrift {
   }
 
   /**
-   * Apache Thrift Protocols perform serialization which enables cross 
-   * language RPC. The Protocol type is the JavaScript browser implementation 
+   * Apache Thrift Protocols perform serialization which enables cross
+   * language RPC. The Protocol type is the JavaScript browser implementation
    * of the Apache Thrift TJSONProtocol.
    */
-  class TJSONProtocol {
+  export class TJSONProtocol {
     transport: Object;
 
     /**
@@ -401,17 +402,17 @@ declare module Thrift {
     /**
      * Thrift IDL type string to Id mapping.
      * The mapping table looks as follows:
-     * "tf"  -> Thrift.Type.BOOL  
-     * "i8"  -> Thrift.Type.BYTE  
-     * "i16" -> Thrift.Type.I16   
-     * "i32" -> Thrift.Type.I32   
-     * "i64" -> Thrift.Type.I64   
+     * "tf"  -> Thrift.Type.BOOL
+     * "i8"  -> Thrift.Type.BYTE
+     * "i16" -> Thrift.Type.I16
+     * "i32" -> Thrift.Type.I32
+     * "i64" -> Thrift.Type.I64
      * "dbl" -> Thrift.Type.DOUBLE
      * "rec" -> Thrift.Type.STRUCT
      * "str" -> Thrift.Type.STRING
-     * "map" -> Thrift.Type.MAP   
-     * "lst" -> Thrift.Type.LIST  
-     * "set" -> Thrift.Type.SET   
+     * "map" -> Thrift.Type.MAP
+     * "lst" -> Thrift.Type.LIST
+     * "set" -> Thrift.Type.SET
      */
     RType: { [k: string]: number };
 
@@ -542,8 +543,8 @@ declare module Thrift {
        @property {Thrift.MessageType} mtype - The type of message call.
        @property {number} rseqid - The sequence number of the message (0 in Thrift RPC).
      */
-    /** 
-     * Deserializes the beginning of a message. 
+    /**
+     * Deserializes the beginning of a message.
      * @returns {AnonReadMessageBeginReturn}
      */
     readMessageBegin(): { fname: string; mtype: number; rseqid: number };
@@ -551,8 +552,8 @@ declare module Thrift {
     /** Deserializes the end of a message. */
     readMessageEnd(): void;
 
-    /** 
-     * Deserializes the beginning of a struct. 
+    /**
+     * Deserializes the beginning of a struct.
      * @param {string} [name] - The name of the struct (ignored).
      * @returns {object} - An object with an empty string fname property.
      */
@@ -568,8 +569,8 @@ declare module Thrift {
        @property {Thrift.Type} ftype - The data type of the field.
        @property {number} fid - The unique identifier of the field.
      */
-    /** 
-     * Deserializes the beginning of a field. 
+    /**
+     * Deserializes the beginning of a field.
      * @returns {AnonReadFieldBeginReturn}
      */
     readFieldBegin(): { fname: string; ftype: number; fid: number };
@@ -584,8 +585,8 @@ declare module Thrift {
        @property {Thrift.Type} vtype - The data type of the value.
        @property {number} size - The number of elements in the map.
      */
-    /** 
-     * Deserializes the beginning of a map. 
+    /**
+     * Deserializes the beginning of a map.
      * @returns {AnonReadMapBeginReturn}
      */
     readMapBegin(): { ktype: number; vtype: number; size: number };
@@ -599,8 +600,8 @@ declare module Thrift {
        @property {Thrift.Type} etype - The data type of the element.
        @property {number} size - The number of elements in the collection.
      */
-    /** 
-     * Deserializes the beginning of a list. 
+    /**
+     * Deserializes the beginning of a list.
      * @returns {AnonReadColBeginReturn}
      */
     readListBegin(): { etype: number; size: number };
@@ -608,8 +609,8 @@ declare module Thrift {
     /** Deserializes the end of a list. */
     readListEnd(): void;
 
-    /** 
-     * Deserializes the beginning of a set. 
+    /**
+     * Deserializes the beginning of a set.
      * @param {Thrift.Type} elemType - The data type of the elements (ignored).
      * @param {number} size - The number of elements in the list (ignored).
      * @returns {AnonReadColBeginReturn}
@@ -619,40 +620,40 @@ declare module Thrift {
     /** Deserializes the end of a set. */
     readSetEnd(): void;
 
-    /** Returns an object with a value property set to 
-     *  False unless the next number in the protocol buffer 
+    /** Returns an object with a value property set to
+     *  False unless the next number in the protocol buffer
      *  is 1, in which case the value property is True. */
     readBool(): Object;
 
-    /** Returns an object with a value property set to the 
+    /** Returns an object with a value property set to the
         next value found in the protocol buffer. */
     readByte(): Object;
 
-    /** Returns an object with a value property set to the 
+    /** Returns an object with a value property set to the
         next value found in the protocol buffer. */
     readI16(): Object;
 
-    /** Returns an object with a value property set to the 
+    /** Returns an object with a value property set to the
         next value found in the protocol buffer. */
     readI32(f?: any): Object;
 
-    /** Returns an object with a value property set to the 
+    /** Returns an object with a value property set to the
         next value found in the protocol buffer. */
     readI64(): Object;
 
-    /** Returns an object with a value property set to the 
+    /** Returns an object with a value property set to the
         next value found in the protocol buffer. */
     readDouble(): Object;
 
-    /** Returns an object with a value property set to the 
+    /** Returns an object with a value property set to the
         next value found in the protocol buffer. */
     readString(): Object;
 
-    /** Returns an object with a value property set to the 
+    /** Returns an object with a value property set to the
         next value found in the protocol buffer. */
     readBinary(): Object;
 
-    /** 
+    /**
      * Method to arbitrarily skip over data (not implemented).
      */
     skip(type: number): void;
@@ -661,9 +662,9 @@ declare module Thrift {
   /**
    * Old alias of the TXHRTransport for backwards compatibility.
    */
-  class Protocol extends TJSONProtocol { }
+  export class Protocol extends TJSONProtocol { }
 
-  class MultiplexProtocol extends TJSONProtocol {
+  export class MultiplexProtocol extends TJSONProtocol {
     serviceName: string;
 
     /**
@@ -685,7 +686,7 @@ declare module Thrift {
     writeMessageBegin(name: string, type: number, seqid: number): void;
   }
 
-  class Multiplexer {
+  export class Multiplexer {
     seqid: number;
 
     /**
@@ -696,4 +697,7 @@ declare module Thrift {
      */
     createClient(serviceName: string, SCl: any, transport: Object);
   }
+
 }
+
+export default Thrift
