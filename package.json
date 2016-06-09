@@ -1,8 +1,9 @@
 {
   "name": "thrift.js",
   "description": "Apache Thrift module for the browser",
+  "main": "src/thrift.js",
   "typings": "thrift.d.ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "Apache 2.0",
   "devDependencies":{
     "grunt": "~0.4.5",
