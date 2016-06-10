@@ -23,7 +23,7 @@
  * The Thrift namespace houses the Apache Thrift JavaScript library
  * elements providing JavaScript bindings for the Apache Thrift RPC
  * system. End users will typically only directly make use of the
- * Transport (TXHRTransport/TWebSocketTransport) and Protocol
+ * TTransport (TXHRTransport/TWebSocketTransport) and Protocol
  * (TJSONPRotocol/TBinaryProtocol) constructors.
  *
  * Object methods beginning with a __ (e.g. __onOpen()) are internal
@@ -34,7 +34,7 @@
  * all features must be scoped within the Thrift namespace.
  * @namespace
  * @example
- *     var transport = new Thrift.Transport("http://localhost:8585");
+ *     var transport = new Thrift.TTransport("http://localhost:8585");
  *     var protocol  = new Thrift.Protocol(transport);
  *     var client = new MyThriftSvcClient(protocol);
  *     var result = client.MyMethod();
@@ -286,7 +286,7 @@ Thrift.TApplicationException.prototype.getCode = function() {
  * @example
  *     var transport = new Thrift.TXHRTransport("http://localhost:8585");
  */
-Thrift.Transport = Thrift.TXHRTransport = function(url, options) {
+Thrift.TTransport = Thrift.TXHRTransport = function(url, options) {
     this.url = url;
     this.wpos = 0;
     this.rpos = 0;
@@ -682,14 +682,14 @@ Thrift.TWebSocketTransport.prototype = {
 /**
  * Initializes a Thrift JSON protocol instance.
  * @constructor
- * @param {Thrift.Transport} transport - The transport to serialize to/from.
+ * @param {Thrift.TTransport} transport - The transport to serialize to/from.
  * @classdesc Apache Thrift Protocols perform serialization which enables cross
  * language RPC. The Protocol type is the JavaScript browser implementation
  * of the Apache Thrift TJSONProtocol.
  * @example
  *     var protocol  = new Thrift.Protocol(transport);
  */
-Thrift.TJSONProtocol = Thrift.Protocol = function(transport) {
+Thrift.TJSONProtocol = Thrift.TProtocol = function(transport) {
     this.tstack = [];
     this.tpos = [];
     this.transport = transport;
@@ -700,50 +700,50 @@ Thrift.TJSONProtocol = Thrift.Protocol = function(transport) {
  * @readonly
  * @see {@link Thrift.Type}
  */
-Thrift.Protocol.Type = {};
-Thrift.Protocol.Type[Thrift.Type.BOOL] = '"tf"';
-Thrift.Protocol.Type[Thrift.Type.BYTE] = '"i8"';
-Thrift.Protocol.Type[Thrift.Type.I16] = '"i16"';
-Thrift.Protocol.Type[Thrift.Type.I32] = '"i32"';
-Thrift.Protocol.Type[Thrift.Type.I64] = '"i64"';
-Thrift.Protocol.Type[Thrift.Type.DOUBLE] = '"dbl"';
-Thrift.Protocol.Type[Thrift.Type.STRUCT] = '"rec"';
-Thrift.Protocol.Type[Thrift.Type.STRING] = '"str"';
-Thrift.Protocol.Type[Thrift.Type.MAP] = '"map"';
-Thrift.Protocol.Type[Thrift.Type.LIST] = '"lst"';
-Thrift.Protocol.Type[Thrift.Type.SET] = '"set"';
+Thrift.TProtocol.Type = {};
+Thrift.TProtocol.Type[Thrift.Type.BOOL] = '"tf"';
+Thrift.TProtocol.Type[Thrift.Type.BYTE] = '"i8"';
+Thrift.TProtocol.Type[Thrift.Type.I16] = '"i16"';
+Thrift.TProtocol.Type[Thrift.Type.I32] = '"i32"';
+Thrift.TProtocol.Type[Thrift.Type.I64] = '"i64"';
+Thrift.TProtocol.Type[Thrift.Type.DOUBLE] = '"dbl"';
+Thrift.TProtocol.Type[Thrift.Type.STRUCT] = '"rec"';
+Thrift.TProtocol.Type[Thrift.Type.STRING] = '"str"';
+Thrift.TProtocol.Type[Thrift.Type.MAP] = '"map"';
+Thrift.TProtocol.Type[Thrift.Type.LIST] = '"lst"';
+Thrift.TProtocol.Type[Thrift.Type.SET] = '"set"';
 
 /**
  * Thrift IDL type string to Id mapping.
  * @readonly
  * @see {@link Thrift.Type}
  */
-Thrift.Protocol.RType = {};
-Thrift.Protocol.RType.tf = Thrift.Type.BOOL;
-Thrift.Protocol.RType.i8 = Thrift.Type.BYTE;
-Thrift.Protocol.RType.i16 = Thrift.Type.I16;
-Thrift.Protocol.RType.i32 = Thrift.Type.I32;
-Thrift.Protocol.RType.i64 = Thrift.Type.I64;
-Thrift.Protocol.RType.dbl = Thrift.Type.DOUBLE;
-Thrift.Protocol.RType.rec = Thrift.Type.STRUCT;
-Thrift.Protocol.RType.str = Thrift.Type.STRING;
-Thrift.Protocol.RType.map = Thrift.Type.MAP;
-Thrift.Protocol.RType.lst = Thrift.Type.LIST;
-Thrift.Protocol.RType.set = Thrift.Type.SET;
+Thrift.TProtocol.RType = {};
+Thrift.TProtocol.RType.tf = Thrift.Type.BOOL;
+Thrift.TProtocol.RType.i8 = Thrift.Type.BYTE;
+Thrift.TProtocol.RType.i16 = Thrift.Type.I16;
+Thrift.TProtocol.RType.i32 = Thrift.Type.I32;
+Thrift.TProtocol.RType.i64 = Thrift.Type.I64;
+Thrift.TProtocol.RType.dbl = Thrift.Type.DOUBLE;
+Thrift.TProtocol.RType.rec = Thrift.Type.STRUCT;
+Thrift.TProtocol.RType.str = Thrift.Type.STRING;
+Thrift.TProtocol.RType.map = Thrift.Type.MAP;
+Thrift.TProtocol.RType.lst = Thrift.Type.LIST;
+Thrift.TProtocol.RType.set = Thrift.Type.SET;
 
 /**
  * The TJSONProtocol version number.
  * @readonly
  * @const {number} Version
- * @memberof Thrift.Protocol
+ * @memberof Thrift.TProtocol
  */
- Thrift.Protocol.Version = 1;
+ Thrift.TProtocol.Version = 1;
 
-Thrift.Protocol.prototype = {
+Thrift.TProtocol.prototype = {
     /**
      * Returns the underlying transport.
      * @readonly
-     * @returns {Thrift.Transport} The underlying transport.
+     * @returns {Thrift.TTransport} The underlying transport.
      */
     getTransport: function() {
         return this.transport;
@@ -759,7 +759,7 @@ Thrift.Protocol.prototype = {
         this.tstack = [];
         this.tpos = [];
 
-        this.tstack.push([Thrift.Protocol.Version, '"' +
+        this.tstack.push([Thrift.TProtocol.Version, '"' +
             name + '"', messageType, seqid]);
     },
 
@@ -813,13 +813,13 @@ Thrift.Protocol.prototype = {
     /**
      * Serializes the beginning of a struct field.
      * @param {string} name - The name of the field.
-     * @param {Thrift.Protocol.Type} fieldType - The data type of the field.
+     * @param {Thrift.TProtocol.Type} fieldType - The data type of the field.
      * @param {number} fieldId - The field's unique identifier.
      */
     writeFieldBegin: function(name, fieldType, fieldId) {
         this.tpos.push(this.tstack.length);
         this.tstack.push({ 'fieldId': '"' +
-            fieldId + '"', 'fieldType': Thrift.Protocol.Type[fieldType]
+            fieldId + '"', 'fieldType': Thrift.TProtocol.Type[fieldType]
         });
 
     },
@@ -851,8 +851,8 @@ Thrift.Protocol.prototype = {
      */
     writeMapBegin: function(keyType, valType, size) {
         this.tpos.push(this.tstack.length);
-        this.tstack.push([Thrift.Protocol.Type[keyType],
-            Thrift.Protocol.Type[valType], 0]);
+        this.tstack.push([Thrift.TProtocol.Type[keyType],
+            Thrift.TProtocol.Type[valType], 0]);
     },
 
     /**
@@ -900,7 +900,7 @@ Thrift.Protocol.prototype = {
      */
     writeListBegin: function(elemType, size) {
         this.tpos.push(this.tstack.length);
-        this.tstack.push([Thrift.Protocol.Type[elemType], size]);
+        this.tstack.push([Thrift.TProtocol.Type[elemType], size]);
     },
 
     /**
@@ -925,7 +925,7 @@ Thrift.Protocol.prototype = {
      */
     writeSetBegin: function(elemType, size) {
         this.tpos.push(this.tstack.length);
-        this.tstack.push([Thrift.Protocol.Type[elemType], size]);
+        this.tstack.push([Thrift.TProtocol.Type[elemType], size]);
     },
 
     /**
@@ -1036,7 +1036,7 @@ Thrift.Protocol.prototype = {
         var r = {};
         var version = this.robj.shift();
 
-        if (version != Thrift.Protocol.Version) {
+        if (version != Thrift.TProtocol.Version) {
             throw 'Wrong thrift protocol version: ' + version;
         }
 
@@ -1120,11 +1120,11 @@ Thrift.Protocol.prototype = {
             //should only be 1 of these but this is the only
             //way to match a key
             for (var i in (this.rstack[this.rstack.length - 1])) {
-                if (Thrift.Protocol.RType[i] === null) {
+                if (Thrift.TProtocol.RType[i] === null) {
                     continue;
                 }
 
-                ftype = Thrift.Protocol.RType[i];
+                ftype = Thrift.TProtocol.RType[i];
                 this.rstack[this.rstack.length - 1] =
                     this.rstack[this.rstack.length - 1][i];
             }
@@ -1169,8 +1169,8 @@ Thrift.Protocol.prototype = {
         }
 
         var r = {};
-        r.ktype = Thrift.Protocol.RType[first];
-        r.vtype = Thrift.Protocol.RType[map.shift()];
+        r.ktype = Thrift.TProtocol.RType[first];
+        r.vtype = Thrift.TProtocol.RType[map.shift()];
         r.size = map.shift();
 
 
@@ -1199,7 +1199,7 @@ Thrift.Protocol.prototype = {
         var list = this.rstack[this.rstack.length - 1];
 
         var r = {};
-        r.etype = Thrift.Protocol.RType[list.shift()];
+        r.etype = Thrift.TProtocol.RType[list.shift()];
         r.size = list.shift();
 
         this.rpos.push(this.rstack.length);
@@ -1393,18 +1393,18 @@ Thrift.Protocol.prototype = {
  * @constructor
  */
 Thrift.MultiplexProtocol = function (srvName, trans, strictRead, strictWrite) {
-    Thrift.Protocol.call(this, trans, strictRead, strictWrite);
+    Thrift.TProtocol.call(this, trans, strictRead, strictWrite);
     this.serviceName = srvName;
 };
-Thrift.inherits(Thrift.MultiplexProtocol, Thrift.Protocol, 'multiplexProtocol');
+Thrift.inherits(Thrift.MultiplexProtocol, Thrift.TProtocol, 'multiplexProtocol');
 
 /** Override writeMessageBegin method of prototype*/
 Thrift.MultiplexProtocol.prototype.writeMessageBegin = function (name, type, seqid) {
 
     if (type === Thrift.MessageType.CALL || type === Thrift.MessageType.ONEWAY) {
-        Thrift.Protocol.prototype.writeMessageBegin.call(this, this.serviceName + ":" + name, type, seqid);
+        Thrift.TProtocol.prototype.writeMessageBegin.call(this, this.serviceName + ":" + name, type, seqid);
     } else {
-        Thrift.Protocol.prototype.writeMessageBegin.call(this, name, type, seqid);
+        Thrift.TProtocol.prototype.writeMessageBegin.call(this, name, type, seqid);
     }
 };
 
@@ -1416,10 +1416,10 @@ Thrift.Multiplexer = function () {
  * @constructor
  * @param {String} serviceName - The transport to serialize to/from.
  * @param {Thrift.ServiceClient} SCl - The Service Client Class
- * @param {Thrift.Transport} transport - Thrift.Transport instance which provides remote host:port
+ * @param {Thrift.TTransport} transport - Thrift.TTransport instance which provides remote host:port
  * @example
  *    var mp = new Thrift.Multiplexer();
- *    var transport = new Thrift.Transport("http://localhost:9090/foo.thrift");
+ *    var transport = new Thrift.TTransport("http://localhost:9090/foo.thrift");
  *    var protocol = new Thrift.Protocol(transport);
  *    var client = mp.createClient('AuthService', AuthServiceClient, transport);
 */
@@ -1505,5 +1505,22 @@ copyMap = function(obj, types){
 
 Thrift.copyMap = copyMap;
 Thrift.copyList = copyList;
+
+Thrift.TProtocolException = function(type, message) {
+  Error.call(this, message);
+  this.name = 'TProtocolException';
+  this.type = type;
+};
+Thrift.inherits(Thrift.TProtocolException, Error);
+
+Thrift.TProtocolExceptionType = {
+  UNKNOWN: 0,
+  INVALID_DATA: 1,
+  NEGATIVE_SIZE: 2,
+  SIZE_LIMIT: 3,
+  BAD_VERSION: 4,
+  NOT_IMPLEMENTED: 5,
+  DEPTH_LIMIT: 6
+};
 
 module.exports = Thrift
