@@ -3,7 +3,7 @@
   "description": "Apache Thrift module for the browser",
   "main": "src/thrift.js",
   "typings": "index.d.ts",
-  "version": "1.0.11",
+  "version": "1.0.18",
   "license": "Apache 2.0",
   "devDependencies":{
     "grunt": "~0.4.5",
