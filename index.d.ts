@@ -307,7 +307,9 @@ export class TXHRTransport {
 /**
  * Old alias of the TXHRTransport for backwards compatibility.
  */
-export class TTransport extends TXHRTransport { }
+export class TTransport extends TXHRTransport {
+  flush(async: any, callback?: Function): string;
+}
 
 /**
  * The Apache Thrift Transport layer performs byte level I/O
@@ -456,7 +458,7 @@ export class TJSONProtocol {
    * Returns the underlying transport.
    * @returns {Thrift.Transport} The underlying transport.
    */
-  getTransport(): Object;
+  getTransport(): TTransport;
 
   /**
    * Serializes the beginning of a Thrift RPC message.
