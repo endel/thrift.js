@@ -179,6 +179,11 @@ export class TBase {
  */
 export class TProtocol {
   /**
+   * Queue of events to dispatch
+   */
+  tstack: any[];
+
+  /**
    * Initializes a Thrift JSON protocol instance.
    * @param {Thrift.TTransport} transport - The transport to serialize to/from.
    */
